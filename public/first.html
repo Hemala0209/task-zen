@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Zen - Login/Register</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f3f3f3;
+    }
+
+    .navbar {
+      background-color: #d62828;
+      padding: 15px 30px;
+      display: flex;
+      justify-content:space-between;
+      align-items: center;
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      opacity: 0.8;
+    }
+
+    .auth-button {
+      margin-left: 25px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: black;
+      color: white;
+      transition: background 0.3s;
+    }
+
+    .auth-button:hover {
+      background-color: #333;
+    }
+
+    .form-container {
+      display: none;
+      width: 400px;
+      background: white;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2000;
+    }
+
+    .form-section {
+      text-align: center;
+    }
+
+    .form-section h2 {
+      font-size: 32px;
+      background: linear-gradient(45deg, #ff6b6b, #556270);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: black;
+      margin-bottom: 20px;
+    }
+
+    .form-section label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .form-section input {
+      width: 92%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .form-section button {
+      width: 100%;
+      background: rgb(255, 94, 0);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .form-section button:hover {
+      background: rgb(139, 56, 0);
+    }
+
+    .form-section p {
+      margin-top: 15px;
+      font-size: 15px;
+      color: #444;
+    }
+
+    .form-section a {
+      color: rgb(245, 96, 3);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .form-section a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      padding-top: 100px;
+      text-align: center;
+    }
+
+    .scroll-container {
+      width: 100%;
+      overflow: hidden;
+      background: #fff;
+      padding: 30px 0;
+      margin-top: 40px;
+    }
+
+    .scroll-track {
+      display: flex;
+      width: calc(200%);
+      animation: scrollLeft 25s linear infinite;
+    }
+
+    .scroll-item {
+      flex: 0 0 300px;
+      margin: 0 20px;
+      text-align: center;
+    }
+
+    .scroll-item img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-item p {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    @keyframes scrollLeft {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="#" class="logo">Task Zen</a>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <button class="auth-button" onclick="showLogin()">Signin / Signup</button>
+    </div>
+  </div>
+
+  <div class="form-container" id="formContainer">
+    <!-- Login Form -->
+    <div id="login-form-container" class="form-section">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" name="username" required />
+
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" required />
+
+        <button type="submit">Login</button>
+        <p>Don't have an account?
+          <a href="javascript:void(0);" onclick="toggleForms()">Register here</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Register Form -->
+    <div id="register-form-container" class="form-section" style="display: none;">
+      <h2>Register</h2>
+      <form id="register-form">
+        <label for="register-username">Username:</label>
+        <input type="text" id="register-username" name="user_name" required />
+
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" name="email" required />
+
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" name="password" required />
+
+        <button type="submit">Register</button>
+        <p>Already have an account?
+          <a href="javascript:void(0);" onclick="toggleForms()">Login here</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Welcome to Task Zen!</h1>
+    <p>Master Your Day with Smart Planning.</p>
+  </div>
+
+  <div class="scroll-container">
+    <div class="scroll-track">
+      <div class="scroll-item"><img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg" alt="Plan your tasks"><p>Plan your tasks</p></div>
+      <div class="scroll-item"><img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png" alt="Stay focused"><p>Stay focused</p></div>
+      <div class="scroll-item"><img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress"><p>Track your progress</p></div>
+      <div class="scroll-item"><img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg" alt="Achieve your goals"><p>Achieve your goals</p></div>
+      <div class="scroll-item"><img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg" alt="Plan your tasks"><p>Plan your tasks</p></div>
+      <div class="scroll-item"><img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png" alt="Stay focused"><p>Stay focused</p></div>
+      <div class="scroll-item"><img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress"><p>Track your progress</p></div>
+      <div class="scroll-item"><img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg" alt="Achieve your goals"><p>Achieve your goals</p></div>
+    </div>
+  </div>
+
+  <script>
+  function showLogin() {
+    document.getElementById('formContainer').style.display = 'block';
+    document.getElementById('login-form-container').style.display = 'block';
+    document.getElementById('register-form-container').style.display = 'none';
+  }
+
+  function toggleForms() {
+    const loginForm = document.getElementById('login-form-container');
+    const registerForm = document.getElementById('register-form-container');
+
+    if (loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+    } else {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+    }
+  }
+
+  // Submit register
+ 
+  document.getElementById('register-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const user_name = document.getElementById('register-username').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    try {
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_name, email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Registration successful!');
+        window.location.href = 'home.html'; // ✅ navigate to home
+      } else {
+        alert(data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Something went wrong.');
+    }
+  });
+
+
+  // Submit login
+ 
+  document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const user_name = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
+
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // important for session cookies
+        body: JSON.stringify({ user_name, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert('Login successful!');
+        window.location.href = 'home.html'; // ✅ Redirect to home.html
+      } else {
+        alert(data.message || 'Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Something went wrong. Please try again.');
+    }
+  });
+
+
+</script>
+
+</body>
+</html>
