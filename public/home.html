@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Zen Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .navbar {
+      width: 100%;
+      padding: 20px 30px;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Left - Logo */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #4338ca;
+    }
+
+    .logo-sub {
+      font-size: 14px;
+      font-weight: bold;
+      color: #4338ca;
+      letter-spacing: 1px;
+    }
+
+    /* Center - Tabs */
+    .tabs {
+      display: flex;
+      gap: 40px;
+    }
+
+    .tab {
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      padding-bottom: 5px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      border-color: #000;
+    }
+
+    .tab:hover {
+      opacity: 0.7;
+    }
+
+    /* Right - Buttons */
+    .right-buttons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-create {
+      background-color: #5f3dc4;
+      color: white;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-create:hover {
+      background-color: #4c2ca3;
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid #e63946;
+      color: #e63946;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      background-color: #ffe5e5;
+    }
+
+    /* MODAL STYLES */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 3000;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 100px auto;
+      padding: 30px;
+      width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+
+    .modal-content h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-content label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content textarea,
+    .modal-content select,
+    .modal-content input[type="number"],
+    .modal-content input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .modal-content textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    .due-date-time {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .modal-buttons {
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .save-btn {
+      background-color: #5f3dc4;
+      color: white;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+
+    .cancel-btn {
+      background-color: #e63946;
+      color: white;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <!-- Left: Logo -->
+    <div class="logo-container">
+      <div class="logo">TZ</div>
+      <div class="logo-sub">TASKS</div>
+    </div>
+
+    <!-- Center: Tabs -->
+    <div class="tabs">
+      <div class="tab active">Active Tasks</div>
+      <div class="tab">Completed Tasks</div>
+    </div>
+
+    <!-- Right: Buttons -->
+     <div class="right-buttons">
+      <button class="btn-create">+ Create New</button>
+      <button class="btn-logout">Logout</button>
+    </div>
+  </div>
+    <!-- Logout Confirmation Popup -->
+<div id="logout-popup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;">
+  <div style="background:white; padding:20px 30px; border-radius:10px; text-align:center; max-width:300px;">
+    <p style="margin-bottom:15px;">Are you sure you want to logout and delete your account?</p>
+    <button id="confirm-logout" style="margin-right:10px; background-color:red; color:white; border:none; padding:5px 10px; border-radius:5px;">Yes</button>
+    <button id="cancel-logout" style="background-color:gray; color:white; border:none; padding:5px 10px; border-radius:5px;">Cancel</button>
+  </div>
+</div>
+
+
+
+  <!-- CREATE TASK MODAL -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <h2>Create a new task</h2>
+
+      <label for="title">Title</label>
+      <div style="display: flex; gap: 10px;">
+  <input type="text" id="title" placeholder="E.g. Complete the presentation for monthly sales report..." style="flex: 3;" />
+  <select id="priority" style="flex: 1;">
+    <option>Set Priority</option>
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+  </select>
+</div>
+
+
+      <label for="desc">Description</label>
+      <textarea id="desc" placeholder="Add details about the task..."></textarea>
+
+      <label for="due-date">Due on</label>
+      <div class="due-date-time">
+        <input type="date" id="due-date" />
+        <input type="number" min="1" max="12" id="due-hour" value="9" />
+        <input type="number" min="0" max="59" id="due-minute" value="45" />
+        <select id="ampm">
+          <option>AM</option>
+          <option selected>PM</option>
+        </select>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="save-btn">Save</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+<script>
+  const modal = document.getElementById("taskModal");
+  const createBtn = document.querySelector(".btn-create");
+
+  createBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+  });
+
+  function closeModal() {
+    modal.style.display = "none";
+    // Clear inputs after closing
+    titleInput.value = "";
+    descInput.value = "";
+    prioritySelect.value = "Set Priority";
+    dateInput.value = "";
+    hourInput.value = "9";
+    minuteInput.value = "45";
+    ampmSelect.value = "PM";
+  }
+
+  window.onclick = function (event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  const tasks = {
+    active: [],
+    completed: [],
+  };
+
+  const saveBtn = document.querySelector(".save-btn");
+  const titleInput = document.getElementById("title");
+  const descInput = document.getElementById("desc");
+  const prioritySelect = document.getElementById("priority");
+  const dateInput = document.getElementById("due-date");
+  const hourInput = document.getElementById("due-hour");
+  const minuteInput = document.getElementById("due-minute");
+  const ampmSelect = document.getElementById("ampm");
+
+  const tabElements = document.querySelectorAll(".tab");
+  const taskDisplay = document.createElement("div");
+  taskDisplay.style.padding = "30px";
+  document.body.appendChild(taskDisplay);
+
+  function renderTasks(type) {
+    taskDisplay.innerHTML = "";
+    const list = tasks[type];
+
+    if (list.length === 0) {
+      taskDisplay.innerHTML = "<p style='text-align:center;'>No tasks found.</p>";
+      return;
+    }
+
+    list.forEach((task) => {
+  const taskCard = document.createElement("div");
+  taskCard.style.margin = "0 auto 20px";
+  taskCard.style.width = "420px";
+  taskCard.style.padding = "20px";
+  taskCard.style.background = "white";
+  taskCard.style.border = "1px solid #ddd";
+  taskCard.style.borderRadius = "10px";
+  taskCard.style.boxShadow = "0 2px 6px rgba(0,0,0,0.05)";
+
+  const dueDate = new Date(task.due_date);
+  const options = { month: "short", day: "numeric", hour: "numeric", minute: "numeric", hour12: true };
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = task.completed;
+  checkbox.style.marginRight = "10px";
+checkbox.addEventListener("change", async () => {
+  try {
+    await fetch(`/tasks/${task.id}/complete`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ completed: checkbox.checked })
+    });
+
+    await fetchTasks(); 
+    // After fetchTasks()
+tabElements.forEach((t) => t.classList.remove("active"));
+tabElements[1].classList.add("active");
+renderTasks("completed");
+// Refresh task lists
+
+    // Detect which tab is active and re-render it
+    const currentTab = document.querySelector('.tab.active').textContent.includes("Completed") ? "completed" : "active";
+    renderTasks(currentTab);
+
+  } catch (err) {
+    console.error("Error updating task:", err);
+    alert("Failed to update task status.");
+  }
+});
+
+
+  const titleSpan = document.createElement("span");
+  titleSpan.innerText = task.title;
+
+  const header = document.createElement("h3");
+  header.appendChild(checkbox);
+  header.appendChild(titleSpan);
+
+  taskCard.appendChild(header);
+  taskCard.innerHTML += `
+    <small style="display:block; margin-bottom: 5px;">Due: ${dueDate.toLocaleString('en-US', options)}</small>
+    <small style="display:block; margin-bottom: 5px;">Priority: <strong>${task.priority}</strong></small>
+    <p style="margin-bottom: 10px;">${task.description}</p>
+  `;
+
+  taskDisplay.appendChild(taskCard);
+});
+
+  }
+
+  tabElements.forEach((tab, idx) => {
+    tab.addEventListener("click", () => {
+      tabElements.forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderTasks(idx === 0 ? "active" : "completed");
+    });
+  });
+
+  async function fetchTasks() {
+    try {
+      const res = await fetch('/tasks', {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (res.status === 401) {
+        alert("Not logged in. Redirecting to login.");
+        window.location.href = '/';
+        return;
+      }
+
+      const taskList = await res.json();
+      tasks.active = taskList.filter(t => !t.completed);
+      tasks.completed = taskList.filter(t => t.completed);
+      renderTasks("active");
+    } catch (err) {
+      console.error('Could not fetch tasks:', err);
+      alert("Failed to load tasks. Please check your connection.");
+    }
+  }
+
+  saveBtn.addEventListener("click", async () => {
+    const title = titleInput.value.trim();
+    const description = descInput.value.trim();
+    const priority = prioritySelect.value;
+    const date = dateInput.value;
+    const hour = hourInput.value;
+    const minute = minuteInput.value;
+    const ampm = ampmSelect.value;
+
+    if (!title || !date || !hour || !minute || priority === "Set Priority") {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    let formattedHour = parseInt(hour);
+    if (ampm === "PM" && formattedHour < 12) formattedHour += 12;
+    if (ampm === "AM" && formattedHour === 12) formattedHour = 0;
+
+    const due_date = `${date} ${String(formattedHour).padStart(2, '0')}:${minute.padStart(2, '0')}:00`;
+
+    const task = { title, description, priority, due_date };
+
+    try {
+      const res = await fetch('/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(task)
+      });
+
+      if (!res.ok) {
+        alert("Error saving task.");
+        return;
+      }
+
+      const savedTask = await res.json();
+      tasks.active.push(savedTask);
+      closeModal();
+      renderTasks("active");
+    } catch (err) {
+      console.error('Error saving task:', err);
+      alert("Could not save task. Check your network or login status.");
+    }
+  });
+
+  // Initial load
+  fetchTasks();
+
+  // Logout
+  
+  const logoutBtn = document.querySelector('.btn-logout');
+  const popup = document.getElementById('logout-popup');
+  const confirmLogout = document.getElementById('confirm-logout');
+  const cancelLogout = document.getElementById('cancel-logout');
+
+  // Show popup on logout button click
+  logoutBtn.addEventListener('click', () => {
+    popup.style.display = 'flex';
+  });
+
+  // Cancel button hides the popup
+  cancelLogout.addEventListener('click', () => {
+    popup.style.display = 'none';
+  });
+
+  // Confirm logout and delete user
+  confirmLogout.addEventListener('click', async () => {
+  try {
+    const res = await fetch('/logout-delete', {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert(data.message || 'Logged out successfully.');
+      window.location.href = 'first.html';
+    } else {
+      alert(data.message || 'Logout failed.');
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    alert('Error during logout');
+  }
+});
+
+
+</script>
+
+
+
+</body>
+</html>
