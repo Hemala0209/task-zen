@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Task Zen - Login/Register</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -13,19 +17,20 @@
 
     .navbar {
       background-color: #d62828;
-      padding: 15px 30px;
+      padding: 12px 20px;
       display: flex;
-      justify-content:space-between;
+      justify-content: space-between;
       align-items: center;
       color: white;
       position: fixed;
       width: 100%;
       top: 0;
       z-index: 1000;
+      flex-wrap: wrap;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: bold;
       color: white;
       text-decoration: none;
@@ -33,44 +38,34 @@
 
     .nav-links {
       display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
       align-items: center;
-      gap: 25px;
     }
 
     .nav-links a {
       color: white;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
-      transition: opacity 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      opacity: 0.8;
     }
 
     .auth-button {
-      margin-left: 25px;
-      padding: 8px 16px;
+      padding: 6px 12px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 14px;
-      font-weight: bold;
       cursor: pointer;
       background-color: black;
       color: white;
-      transition: background 0.3s;
-    }
-
-    .auth-button:hover {
-      background-color: #333;
     }
 
     .form-container {
       display: none;
-      width: 400px;
+      width: 90%;
+      max-width: 400px;
       background: white;
-      padding: 30px;
+      padding: 25px;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       position: fixed;
@@ -85,12 +80,10 @@
     }
 
     .form-section h2 {
-      font-size: 32px;
+      font-size: 26px;
       background: linear-gradient(45deg, #ff6b6b, #556270);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: black;
       margin-bottom: 20px;
     }
 
@@ -98,19 +91,17 @@
       display: block;
       text-align: left;
       font-weight: bold;
-      margin-top: 15px;
-      font-size: 18px;
-      color: #333;
+      margin-top: 10px;
+      font-size: 16px;
     }
 
     .form-section input {
-      width: 92%;
+      width: 100%;
       padding: 10px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 16px;
-      box-sizing: border-box;
+      font-size: 15px;
     }
 
     .form-section button {
@@ -120,71 +111,67 @@
       padding: 12px;
       border: none;
       border-radius: 6px;
-      cursor: pointer;
-      font-size: 18px;
+      font-size: 17px;
       margin-top: 20px;
-      transition: background 0.3s ease;
-    }
-
-    .form-section button:hover {
-      background: rgb(139, 56, 0);
     }
 
     .form-section p {
       margin-top: 15px;
-      font-size: 15px;
-      color: #444;
+      font-size: 14px;
     }
 
     .form-section a {
       color: rgb(245, 96, 3);
       text-decoration: none;
       font-weight: bold;
-      font-size: 17px;
-    }
-
-    .form-section a:hover {
-      text-decoration: underline;
     }
 
     .content {
-      padding-top: 100px;
+      padding-top: 90px;
       text-align: center;
+    }
+
+    .content h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      font-size: 16px;
     }
 
     .scroll-container {
       width: 100%;
       overflow: hidden;
       background: #fff;
-      padding: 30px 0;
-      margin-top: 40px;
+      padding: 20px 0;
+      margin-top: 30px;
     }
 
     .scroll-track {
       display: flex;
       width: calc(200%);
-      animation: scrollLeft 25s linear infinite;
+      animation: scrollLeft 10s linear infinite;
     }
 
     .scroll-item {
-      flex: 0 0 300px;
-      margin: 0 20px;
+      flex: 0 0 240px;
+      margin: 0 10px;
       text-align: center;
     }
 
     .scroll-item img {
       width: 100%;
-      height: 350px;
+      height: 200px;
       object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .scroll-item p {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
+      margin-top: 8px;
+      font-size: 15px;
+      font-weight: 600;
     }
 
     @keyframes scrollLeft {
@@ -193,6 +180,32 @@
       }
       100% {
         transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .logo {
+        font-size: 20px;
+      }
+
+      .form-section h2 {
+        font-size: 24px;
+      }
+
+      .scroll-item {
+        flex: 0 0 200px;
       }
     }
   </style>
@@ -255,100 +268,141 @@
 
   <div class="scroll-container">
     <div class="scroll-track">
-      <div class="scroll-item"><img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg" alt="Plan your tasks"><p>Plan your tasks</p></div>
-      <div class="scroll-item"><img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png" alt="Stay focused"><p>Stay focused</p></div>
-      <div class="scroll-item"><img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress"><p>Track your progress</p></div>
-      <div class="scroll-item"><img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg" alt="Achieve your goals"><p>Achieve your goals</p></div>
-      <div class="scroll-item"><img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg" alt="Plan your tasks"><p>Plan your tasks</p></div>
-      <div class="scroll-item"><img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png" alt="Stay focused"><p>Stay focused</p></div>
-      <div class="scroll-item"><img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress"><p>Track your progress</p></div>
-      <div class="scroll-item"><img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg" alt="Achieve your goals"><p>Achieve your goals</p></div>
+
+      <!-- Set 1 -->
+      <div class="scroll-item">
+        <img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg">
+        <p>Plan your tasks</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png">
+        <p>Stay focused</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress">
+        <p>Track your progress</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg">
+        <p>Achieve your goals</p>
+      </div>
+
+      <!-- Set 2 -->
+      <div class="scroll-item">
+        <img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg">
+        <p>Plan your tasks</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png">
+        <p>Stay focused</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress">
+        <p>Track your progress</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg">
+        <p>Achieve your goals</p>
+      </div>
+
+      <!-- Set 3 (to avoid white space) -->
+      <div class="scroll-item">
+        <img src="https://images.stockcake.com/public/0/f/5/0f5785c8-6236-4149-8c0e-abe2f3672ea2_large/organizing-sticky-notes-stockcake.jpg">
+        <p>Plan your tasks</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://i.pinimg.com/originals/63/c6/da/63c6da3f9073150eddb394c02e64d4ab.png">
+        <p>Stay focused</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://media.istockphoto.com/id/1503326539/photo/business-desk-with-laptop-computer-note-book-and-coffee-flat-lay-copy-space-stock-photo.jpg?s=612x612&w=0&k=20&c=SS_7ZRyskx0n0a419ZbkuWTU7htGXKDBNKhRf7_Yjnw=" alt="Track your progress">
+        <p>Track your progress</p>
+      </div>
+      <div class="scroll-item">
+        <img src="https://www.shinesheets.com/wp-content/uploads/2018/08/things-that-stop-you-from-achieving-your-goals-art-photography.jpg">
+        <p>Achieve your goals</p>
+      </div>
+
     </div>
   </div>
-
   <script>
-  function showLogin() {
-    document.getElementById('formContainer').style.display = 'block';
-    document.getElementById('login-form-container').style.display = 'block';
-    document.getElementById('register-form-container').style.display = 'none';
-  }
-
-  function toggleForms() {
-    const loginForm = document.getElementById('login-form-container');
-    const registerForm = document.getElementById('register-form-container');
-
-    if (loginForm.style.display === 'none') {
-      loginForm.style.display = 'block';
-      registerForm.style.display = 'none';
-    } else {
-      loginForm.style.display = 'none';
-      registerForm.style.display = 'block';
+    function showLogin() {
+      document.getElementById('formContainer').style.display = 'block';
+      document.getElementById('login-form-container').style.display = 'block';
+      document.getElementById('register-form-container').style.display = 'none';
     }
-  }
 
-  // Submit register
- 
-  document.getElementById('register-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
+    function toggleForms() {
+      const loginForm = document.getElementById('login-form-container');
+      const registerForm = document.getElementById('register-form-container');
 
-    const user_name = document.getElementById('register-username').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-
-    try {
-      const response = await fetch('/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_name, email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Registration successful!');
-        window.location.href = 'home.html'; // ✅ navigate to home
+      if (loginForm.style.display === 'none') {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
       } else {
-        alert(data.message || 'Registration failed');
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
       }
-    } catch (error) {
-      console.error('Registration error:', error);
-      alert('Something went wrong.');
     }
-  });
 
+    // Submit register
+    document.getElementById('register-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  // Submit login
- 
-  document.getElementById('login-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
+      const user_name = document.getElementById('register-username').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
 
-    const user_name = document.getElementById('login-username').value;
-    const password = document.getElementById('login-password').value;
+      try {
+        const response = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_name, email, password })
+        });
 
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // important for session cookies
-        body: JSON.stringify({ user_name, password })
-      });
+        const data = await response.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Login successful!');
-        window.location.href = 'home.html'; // ✅ Redirect to home.html
-      } else {
-        alert(data.message || 'Login failed. Please check your credentials.');
+        if (response.ok) {
+          alert('Registration successful!');
+          window.location.href = 'home.html';
+        } else {
+          alert(data.message || 'Registration failed');
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        alert('Something went wrong.');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('Something went wrong. Please try again.');
-    }
-  });
+    });
 
+    // Submit login
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-</script>
+      const user_name = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ user_name, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('Login successful!');
+          window.location.href = 'home.html';
+        } else {
+          alert(data.message || 'Login failed. Please check your credentials.');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Something went wrong. Please try again.');
+      }
+    });
+  </script>
 
 </body>
 </html>

@@ -18,9 +18,10 @@
 
     .navbar {
       width: 100%;
-      padding: 20px 30px;
+      padding: 16px;
       background-color: white;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -29,7 +30,6 @@
       z-index: 1000;
     }
 
-    /* Left - Logo */
     .logo-container {
       display: flex;
       align-items: center;
@@ -37,58 +37,56 @@
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: bold;
       color: #4338ca;
     }
 
     .logo-sub {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
       color: #4338ca;
-      letter-spacing: 1px;
     }
 
-    /* Center - Tabs */
     .tabs {
       display: flex;
-      gap: 40px;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 10px 0;
     }
 
     .tab {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
       cursor: pointer;
-      padding-bottom: 5px;
+      padding-bottom: 4px;
       border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
     }
 
     .tab.active {
       border-color: #000;
     }
 
-    .tab:hover {
-      opacity: 0.7;
-    }
-
-    /* Right - Buttons */
     .right-buttons {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-create,
+    .btn-logout {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
     }
 
     .btn-create {
       background-color: #5f3dc4;
       color: white;
-      padding: 8px 18px;
-      border: none;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease;
     }
 
     .btn-create:hover {
@@ -96,23 +94,16 @@
     }
 
     .btn-logout {
-      background: none;
-      border: 1px solid #e63946;
+      background-color: white;
       color: #e63946;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.3s ease;
+      border: 1px solid #e63946;
     }
 
     .btn-logout:hover {
       background-color: #ffe5e5;
     }
 
-    /* MODAL STYLES */
-    .modal {
+     .modal {
       display: none;
       position: fixed;
       z-index: 3000;
@@ -122,57 +113,44 @@
       background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .modal-content {
-      background-color: #fff;
-      margin: 100px auto;
-      padding: 30px;
-      width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #aaa;
-    }
+   .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-    .modal-content h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
 
-    .modal-content label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-
-    .modal-content input[type="text"],
+    .modal-content input,
     .modal-content textarea,
-    .modal-content select,
-    .modal-content input[type="number"],
-    .modal-content input[type="date"] {
+    .modal-content select {
       width: 100%;
       padding: 8px;
+      margin-bottom: 10px;
+      font-size: 16px;
       border-radius: 6px;
       border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    .modal-content textarea {
-      resize: vertical;
-      height: 80px;
     }
 
     .due-date-time {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      align-items: center;
-      margin-top: 5px;
     }
 
     .modal-buttons {
-      margin-top: 20px;
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
     }
 
-    .save-btn {
+      .save-btn {
       background-color: #5f3dc4;
       color: white;
       padding: 8px 18px;
@@ -181,14 +159,33 @@
       font-weight: 600;
       margin-right: 10px;
     }
-
-    .cancel-btn {
+     .cancel-btn {
       background-color: #e63946;
       color: white;
       padding: 8px 18px;
       border: none;
       border-radius: 6px;
       font-weight: 600;
+    }
+
+    .task-container {
+      padding: 20px;
+    }
+
+    .task-card {
+      margin: 0 auto 20px;
+      max-width: 450px;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #ddd;
+    }
+
+    @media (max-width: 600px) {
+      .tabs { justify-content: center; }
+      .right-buttons { justify-content: center; }
+      .navbar { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
